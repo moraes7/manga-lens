@@ -1,7 +1,6 @@
 from fastapi import FastAPI
+from app.routes.image_routes import router as image_router
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "Bem vindo ao Mangalens"}
+app.include_router(image_router)
