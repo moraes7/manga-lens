@@ -1,6 +1,13 @@
 import requests
 import re
+import logging
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s:%(name)s:%(message)s"
+)
+
+logger = logging.getLogger(__name__)
 
 MIN_SIMILARITY = 88
 
@@ -42,6 +49,8 @@ def format_timestamp(seconds):
     return f"{minutes:02}:{remaining_seconds:02}"
 
 def build_error_response(error_code, message):
+    logger.warning(f"Error: {error_code} - {message}")
+
     return {
         "success": False,
         "error_code": error_code,
@@ -75,6 +84,8 @@ def validate_trace_result(data):
             "LOW_CONFIDENCE",
             "Resultado com baixa confiança"
         )
+    
+    logger.info(f" Resultado aceito com similaridade de: {similarity}%")
 
     return {
         "success": True,
@@ -113,6 +124,8 @@ def search_anime_by_image(image_path):
     url = "https://api.trace.moe/search"
 
     try:
+        logger.info(f" Enviando imagem para API do trace.moe: {image_path}")
+
         with open(image_path, 'rb') as image_file:
             response = requests.post(
                 url,
@@ -162,6 +175,8 @@ def search_anime_by_image(image_path):
         )
 
     except Exception:
+        logger.exception("Erro inesperado ao buscar anime pela imagem")
+
         return build_error_response(
             "UNEXPECTED_ERROR",
             "Erro inesperado ao buscar anime pela imagem"

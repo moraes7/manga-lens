@@ -12,10 +12,37 @@ from app.integrations.trace_moe import (
     search_anime_by_image,
     ERROR_STATUS_MAP
 )
+from app.schemas.image_schema import UploadImageResponse
 
 router = APIRouter()
 
-@router.post("/upload")
+@router.post(
+        "/upload",
+        response_model=UploadImageResponse,
+        summary="Upload de imagem para análise",
+        description="Recebe uma imagem, processa o arquivo, gera embedding, busca imagens similares e consulta a API trace.moe para identificar o anime.",
+        responses={
+            200: {
+                "description": "Imagem processada com sucesso"
+            },
+            400: {
+                "description": "Nenhum resultado encontrado"
+            },
+            422: {
+                "description": "Resultado encontrado com baixa confiança"
+            },
+            502: {
+                "description": "Erro ao consultar a API do trace.moe"
+            },
+            504: {
+                "description": "Timeout ao consultar a API do trace.moe"
+            },
+            500: {
+                "description": "Erro interno inesperado"
+            }
+        }   
+    )
+
 async def upload_image(file: UploadFile = File(...)):
     filename = save_image(file)
 
