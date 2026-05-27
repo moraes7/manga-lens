@@ -7,6 +7,7 @@ from app.services.image_service import (
     generate_embedding,
     find_similar_image
     )
+from app.integrations.trace_moe import search_anime_by_image
 
 router = APIRouter()
 
@@ -18,17 +19,21 @@ async def upload_image(file: UploadFile = File(...)):
 
     image_info = get_image_info(image_path)
 
-    precessed_image = preprocess_image(image_path)
+    processed_image = preprocess_image(image_path)
 
     embedding = generate_embedding(image_path)
 
     similar_image = find_similar_image(image_path)
+
+    trace_moe_result = search_anime_by_image(image_path)
     
     return {
+        "success": True,
+        "message": "Imagem processada com sucesso",
         "filename": filename,
-        "message": "Imagem enviada com sucesso!", 
         "image_info": image_info,
-        "preprocessed_image": precessed_image,
+        "preprocessed_image": processed_image,
         "embedding_preview": embedding[:10],
-        "similar_image": similar_image
+        "similar_image": similar_image,
+        "trace_moe_result": trace_moe_result
     }
