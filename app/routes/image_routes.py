@@ -13,12 +13,13 @@ from app.integrations.trace_moe import (
     ERROR_STATUS_MAP
 )
 from app.schemas.image_schema import UploadImageResponse
+from app.services.anime_detector_service import detect_anime
 
 router = APIRouter()
 
 @router.post(
         "/upload",
-        response_model=UploadImageResponse,
+        #response_model=UploadImageResponse,
         summary="Upload de imagem para análise",
         description="Recebe uma imagem, processa o arquivo, gera embedding, busca imagens similares e consulta a API trace.moe para identificar o anime.",
         responses={
@@ -56,7 +57,7 @@ async def upload_image(file: UploadFile = File(...)):
 
     similar_image = find_similar_image(image_path)
 
-    trace_moe_result = search_anime_by_image(image_path)
+    trace_moe_result = detect_anime(image_path)
 
     if not trace_moe_result["success"]:
         error_code = trace_moe_result.get("error_code")
@@ -73,7 +74,7 @@ async def upload_image(file: UploadFile = File(...)):
                 "preprocessed_image": processed_image,
                 "embedding_preview": embedding[:10],
                 "similar_image": similar_image,
-                "trace_moe_result": trace_moe_result
+                "anime_result": trace_moe_result
             }
         )
     
@@ -85,5 +86,5 @@ async def upload_image(file: UploadFile = File(...)):
         "preprocessed_image": processed_image,
         "embedding_preview": embedding[:10],
         "similar_image": similar_image,
-        "trace_moe_result": trace_moe_result
+        "anime_result": trace_moe_result
     }
