@@ -1,5 +1,9 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from app.routes.image_routes import router as image_router
+
 
 app = FastAPI()
 
