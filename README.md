@@ -15,14 +15,23 @@ O projeto foi desenvolvido com foco em:
 # ✨ Funcionalidades atuais
 
 ✅ Upload de imagens de anime
+
 ✅ Processamento e pré-processamento de imagem
+
 ✅ Geração de embeddings
+
 ✅ Busca por similaridade local
+
 ✅ Integração com trace.moe
-✅ Fallback automático entre APIs
+
 ✅ Integração com SauceNAO
+
+✅ Fallback automático entre APIs
+
 ✅ Validação de confiança/similaridade
+
 ✅ Interface web com Streamlit
+
 ✅ API REST com FastAPI
 
 ---
@@ -152,6 +161,7 @@ Próximas melhorias:
 * suporte avançado para capas oficiais
 * integração com AniList
 * banco próprio de capas de anime
+* reconhecimento também de painéis de mangá
 
 ---
 
