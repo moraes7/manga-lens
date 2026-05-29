@@ -17,6 +17,18 @@ st.set_page_config(
     layout="centered"
 )
 
+st.markdown(
+    """
+    <style>
+        .block-container {
+            padding-top: 2rem;
+            padding-bottom: 0rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 if "tela" not in st.session_state:
     st.session_state["tela"] = "upload"
