@@ -103,7 +103,16 @@ if st.session_state["tela"] == "upload":
 
 
 elif st.session_state["tela"] == "resultado":
-    show_result(
+    new_analysis = show_result(
         st.session_state["uploaded_file"],
         st.session_state["trace_result"]
     )
+
+    if new_analysis:
+        st.session_state.pop("uploaded_file", None)
+
+        st.session_state.pop("trace_result", None)
+
+        st.session_state["tela"] = "upload"
+
+        st.rerun()

@@ -10,11 +10,11 @@ def show_result(uploaded_file, trace_result):
             .result-card {
                 background-color: #111827;
                 border-radius: 24px;
-                padding: 40px 32px;
+                padding: 32px 32px;
                 text-align: center;
                 box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
-                margin-bottom: 0;
-                margin-top: 45px;
+                margin-bottom: 16px;
+                margin-top: 16px;
             }
 
             .result-status {
@@ -46,10 +46,25 @@ def show_result(uploaded_file, trace_result):
                 font-size: 18px;
                 margin: 10px 0;
             }
+
+            div.stButton > button {
+                width: auto;
+                padding: 6px 16px;
+                border-radius: 10px;
+                background-color: transparent;
+                color: #60A5FA;
+                border: 1px solid #60A5FA;
+                font-weight: 700;
+            }
         </style>
         """,
         unsafe_allow_html=True
     )
+
+    button_col_left, button_col_center, button_col_right = st.columns([2, 1, 2])
+
+    with button_col_center:
+        new_analysis = st.button("Nova análise")
 
     st.markdown(
         f"""
@@ -64,21 +79,5 @@ def show_result(uploaded_file, trace_result):
         """,
         unsafe_allow_html=True
     )
-    
 
-    '''col1, col2 = st.columns(2)
-
-    with col1:
-        st.image(
-            uploaded_file,
-            caption="Imagem enviada",
-            use_container_width=True
-        )
-
-    with col2:
-        if trace_result.get("preview"):
-            st.image(
-                trace_result["preview"],
-                caption="Frame encontrado",
-                use_container_width=True
-            )'''
+    return new_analysis
