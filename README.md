@@ -144,7 +144,7 @@ uvicorn app.main:app --reload
 ## 5. Execute o Streamlit
 
 ```bash
-streamlit run app/streamlit_app.py
+streamlit run frontend/streamlit_app.py 
 ```
 
 ---
