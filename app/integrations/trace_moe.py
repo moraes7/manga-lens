@@ -9,7 +9,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-MIN_SIMILARITY = 88
+MIN_SIMILARITY = 80
 
 ERROR_STATUS_MAP = {
     "INVALID_API_RESPONSE": 502,
@@ -63,13 +63,13 @@ def validate_trace_result(data):
     if "result" not in data:
         return build_error_response(
             "INVALID_API_RESPONSE",
-            "Resposta da API inválida"
+            "Não conseguimos interpretar a resposta do serviço de identificação."
         )
 
     if not data['result']:
         return build_error_response(
             "NO_RESULT",
-            "Nenhum resultado encontrado"
+            "Não encontramos nenhuma obra correspondente para esta imagem."
         )
 
     best_result = data['result'][0]
@@ -78,11 +78,12 @@ def validate_trace_result(data):
         best_result.get("similarity", 0) * 100,
         2
     )
+    logger.info(f"Similaridade retornada pelo trace.moe: {similarity}%")
 
     if similarity < MIN_SIMILARITY:
         return build_error_response(
             "LOW_CONFIDENCE",
-            "Resultado com baixa confiança"
+            "Não conseguimos identificar a obra desta imagem."
         )
     
     logger.info(f" Resultado aceito com similaridade de: {similarity}%")
@@ -135,7 +136,7 @@ def search_anime_by_image(image_path):
 
         if response.status_code != 200:
             return build_error_response(
-                "API_RESPONSE_ERROR",
+                "API_REQUEST_ERROR",
                 "Erro ao consultar a API do trace.moe"
             )
 
@@ -153,25 +154,25 @@ def search_anime_by_image(image_path):
     except FileNotFoundError:
         return build_error_response(
             "IMAGE_NOT_FOUND",
-            "Imagem não encontrada no servidor"
+            "Não conseguimos encontrar a imagem enviada."
         )
 
     except requests.exceptions.Timeout:
         return build_error_response(
             "API_TIMEOUT",
-            "Tempo de resposta da API excedido"
+            "O serviço de identificação demorou demais para responder."
         )
 
     except requests.exceptions.ConnectionError:
         return build_error_response(
             "API_CONNECTION_ERROR",
-            "Não foi possível conectar à API"
+            "Não conseguimos conectar ao serviço de identificação agora."
         )
 
     except requests.exceptions.RequestException:
         return build_error_response(
             "API_REQUEST_ERROR",
-            "Erro na requisição para a API"
+            "Não foi possível consultar o serviço de identificação neste momento."
         )
 
     except Exception:
@@ -179,5 +180,5 @@ def search_anime_by_image(image_path):
 
         return build_error_response(
             "UNEXPECTED_ERROR",
-            "Erro inesperado ao buscar anime pela imagem"
+            "Algo inesperado aconteceu durante a identificação da imagem."
         )

@@ -18,20 +18,23 @@ def search_anime_cover(anime_title):
         "search": anime_title
     }
 
-    response = requests.post(
-        ANILIST_API_URL,
-        json={
-            "query": query,
-            "variables": variables
-        },
-        timeout=10
-    )
+    try:
+        response = requests.post(
+            ANILIST_API_URL,
+            json={
+                "query": query,
+                "variables": variables
+            },
+            timeout=10
+        )
 
-    data = response.json()
+        data = response.json()
 
-    media = data.get("data", {}).get("Media")
+        media = data.get("data", {}).get("Media")
 
-    if not media:
+        if not media:
+            return None
+
+        return media.get("coverImage", {}).get("large")
+    except requests.exceptions.Timeout:
         return None
-
-    return media.get("coverImage", {}).get("large")

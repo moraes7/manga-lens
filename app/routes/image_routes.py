@@ -53,11 +53,13 @@ async def upload_image(file: UploadFile = File(...)):
 
     processed_image = preprocess_image(image_path)
 
+    processed_image_path = Path("app/uploads") / processed_image["processed_filename"]
+
     embedding = generate_embedding(image_path)
 
     similar_image = find_similar_image(image_path)
 
-    trace_moe_result = detect_anime(image_path)
+    trace_moe_result = detect_anime(processed_image_path)
 
     if not trace_moe_result["success"]:
         error_code = trace_moe_result.get("error_code")

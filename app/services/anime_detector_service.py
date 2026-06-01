@@ -25,7 +25,8 @@ def detect_anime(image_path):
     if not results:
         return {
             "success": False,
-            "message": "Nunhum resultado encontrado no SauceNAO"
+            "error_code": "NO_RESULT",
+            "message": "Não encontramos nenhuma obra correspondente para esta imagem."
         }
 
     best_result = results[0]
@@ -35,7 +36,8 @@ def detect_anime(image_path):
     if similarity < 70:
         return {
             "success": False,
-            "message": "Resultado encontrado com baixa similaridade"
+            "error_code": "LOW_CONFIDENCE",
+            "message": "Não conseguimos identificar a obra desta imagem."
         }
 
     return {

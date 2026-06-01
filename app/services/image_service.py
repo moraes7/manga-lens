@@ -56,12 +56,12 @@ def preprocess_image(image_path):
 
     image = image.convert("RGB")
     
-    image = image.resize((224, 224))
+    image.thumbnail((512, 512))
 
     processed_filename = f"processed_{Path(image_path).name}"
     processed_path = UPLOAD_FOLDER / processed_filename
 
-    image.save(processed_path)
+    image.save(processed_path, quality=95)
 
     return {
         "processed_filename": processed_filename,
