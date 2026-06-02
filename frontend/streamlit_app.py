@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import time
 from services.api import analyze_image
 from components.result_card import show_result
 
@@ -9,6 +10,17 @@ ALLOWED_IMAGE_TYPES = [
     "image/png",
     "image/webp"
 ]
+
+def animate_progress(progress_bar, status_message):
+    status_message.info("🔍 Analisando imagem...")
+    for progress in range(0, 31, 5):
+        progress_bar.progress(progress)
+        time.sleep(0.18)
+
+    status_message.info("📚 Buscando obra...")
+    for progress in range(35, 61, 5):
+        progress_bar.progress(progress)
+        time.sleep(0.08)
 
 
 st.set_page_config(
@@ -57,21 +69,21 @@ if st.session_state["tela"] == "upload":
                 progress_bar = st.progress(0)
 
                 try:
-                    status_message.info("Preparando imagem...")
-                    progress_bar.progress(25)
-
-                    status_message.info("Analisando imagem...")
-                    progress_bar.progress(50)
+                    animate_progress(progress_bar, status_message)
 
                     result = analyze_image(uploaded_file)
 
-                    status_message.info("Processando resposta...")
-                    progress_bar.progress(75)
-
-                    progress_bar.progress(100)
-                    status_message.empty()
-
                     if result["success"]:
+                        status_message.info("📝 Preparando resultado...")
+                        for progress in range(35, 61, 5):
+                            progress_bar.progress(progress)
+                            time.sleep(0.18)
+                        
+                        time.sleep(0.05)    
+                        
+                        status_message.empty()
+                        progress_bar.empty()
+
                         trace_result = result["anime_result"]["data"]
 
                         st.session_state["uploaded_file"] = uploaded_file
@@ -83,6 +95,8 @@ if st.session_state["tela"] == "upload":
                         st.rerun()
 
                     else:
+                        progress_bar.empty()
+                        status_message.empty()
                         st.error(result["message"])
 
                 except requests.exceptions.ConnectionError:
