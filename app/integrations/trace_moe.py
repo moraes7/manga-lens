@@ -25,6 +25,13 @@ ERROR_STATUS_MAP = {
 
 def clean_anime_title(filename):
 
+    bracket_parts = re.findall(r"\[(.*?)\]", filename)
+
+    for part in bracket_parts:
+        if "_" in part and not part.isdigit():
+            filename = part.replace("_", " ")
+            return filename.strip()
+
     filename = re.sub(r"\[.*?\]", "", filename)
 
     filename = re.sub(r"\(.*?p\)", "", filename)
@@ -36,6 +43,8 @@ def clean_anime_title(filename):
     filename = re.sub(r"\s*-\s*\d+\s*$", "", filename)
 
     filename = re.sub(r"\s+", " ", filename)
+
+    print(f"TÍTULO LIMPO: {filename}")
 
     return filename.strip()
 

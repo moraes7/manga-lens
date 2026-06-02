@@ -59,7 +59,7 @@ async def upload_image(file: UploadFile = File(...)):
 
     similar_image = find_similar_image(image_path)
 
-    trace_moe_result = detect_anime(processed_image_path)
+    trace_moe_result = detect_anime(image_path, processed_image_path)
 
     if not trace_moe_result["success"]:
         error_code = trace_moe_result.get("error_code")
