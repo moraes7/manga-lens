@@ -9,7 +9,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-MIN_SIMILARITY = 80
+MIN_SIMILARITY = 70
 
 ERROR_STATUS_MAP = {
     "INVALID_API_RESPONSE": 502,
