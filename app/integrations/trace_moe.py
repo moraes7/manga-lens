@@ -40,7 +40,7 @@ def clean_anime_title(filename):
 
     filename = filename.strip()
 
-    filename = re.sub(r"\s*-\s*\d+\s*$", "", filename)
+    filename = re.sub(r"\s*-\s*\d+v?\d*\s*$", "", filename)
 
     filename = re.sub(r"\s+", " ", filename)
 

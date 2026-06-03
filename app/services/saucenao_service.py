@@ -1,6 +1,49 @@
 import requests
 from app.config.settings import SAUCENAO_API_KEY
 
+MIN_SAUCENAO_SIMILARITY = 50
+
+def build_error_response(error_code, message):
+    return {
+        "success": False,
+        "error_code": error_code,
+        "message": message
+    }
+
+def build_saucenao_response(best_result):
+    similarity = float(best_result["header"]["similarity"])
+    saucenao_data = best_result["data"]
+    anime_title = saucenao_data.get("source")
+    has_anilist_id = saucenao_data.get("anilist_id")    
+
+    if not anime_title:
+        return build_error_response(
+            "NO_RESULT",
+            "Não encontramos nenhuma obra correspondente para esta imagem."
+        )
+    
+    if not has_anilist_id:
+        return build_error_response(
+            "NO_RESULT",
+            "Não encontramos nenhuma obra correspondente para esta imagem."
+        )
+    
+    if similarity < MIN_SAUCENAO_SIMILARITY:
+        return build_error_response(
+            "LOW_CONFIDENCE",
+            "Não encontramos nenhuma obra correspondente para esta imagem."
+        )
+    
+    return {
+        "success": True,
+        "data": {
+            "anime": anime_title,
+            "episode": saucenao_data.get("part"),
+            "timestamp": saucenao_data.get("est_time"),
+            "similarity": similarity
+        }
+    }
+
 def search_cover_on_saucenao(image_path):
     if not SAUCENAO_API_KEY:
         return {
@@ -23,7 +66,19 @@ def search_cover_on_saucenao(image_path):
                 timeout=10
             )
             data = response.json()
-            return data
+            
+            results = data.get("results", [])
+
+            if not results:
+                return build_error_response(
+                    "NO_RESPONSE",
+                    "Não encontramos nenhuma obra correspondente para esta imagem."
+                )
+            
+            best_result = results[0]
+
+            return build_saucenao_response(best_result)
+
     except requests.exceptions.Timeout:
         return {
             "success": False,
