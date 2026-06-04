@@ -66,18 +66,17 @@ def show_result(uploaded_file, trace_result):
     with button_col_center:
         new_analysis = st.button("Nova análise")
 
-    st.markdown(
-        f"""
-        <div class="result-card">
+        result_html = f"""
+            <div class="result-card">
             <div class="result-status">Análise concluída</div>
             <div class="result-title">{trace_result["anime"]}</div>
             {f'<img class="cover-image" src="{cover_url}" />' if cover_url else ''}
             <div class="result-info">Similaridade: {trace_result["similarity"]}%</div>
             <div class="result-info">Episódio: {trace_result["episode"]}</div>
             <div class="result-info">Minutagem: {trace_result["timestamp"]}</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+            </div>
+        """
+
+    st.markdown(result_html, unsafe_allow_html=True)
 
     return new_analysis

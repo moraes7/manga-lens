@@ -1,5 +1,8 @@
 import requests
 from app.config.settings import SAUCENAO_API_KEY
+import logging
+
+logger = logging.getLogger(__name__)
 
 MIN_SAUCENAO_SIMILARITY = 50
 
@@ -12,9 +15,12 @@ def build_error_response(error_code, message):
 
 def build_saucenao_response(best_result):
     similarity = float(best_result["header"]["similarity"])
+    print(f"SIMILARIDADE RETORNADA PELO SAUCENAO {similarity}")
     saucenao_data = best_result["data"]
     anime_title = saucenao_data.get("source")
     has_anilist_id = saucenao_data.get("anilist_id")    
+    logger.info(f"Título retornado pelo SauceNAO: {anime_title}")
+    logger.info(f"AniList ID retornado pelo SauceNAO: {has_anilist_id}")
 
     if not anime_title:
         return build_error_response(
@@ -22,11 +28,11 @@ def build_saucenao_response(best_result):
             "Não encontramos nenhuma obra correspondente para esta imagem."
         )
     
-    if not has_anilist_id:
+    '''if not has_anilist_id:
         return build_error_response(
             "NO_RESULT",
             "Não encontramos nenhuma obra correspondente para esta imagem."
-        )
+        )'''
     
     if similarity < MIN_SAUCENAO_SIMILARITY:
         return build_error_response(
