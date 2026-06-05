@@ -5,30 +5,34 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def enrich_anime_result(result, source):
+    anime_title = result["data"]["anime"]
+    cover_url = search_anime_cover(anime_title)
+    result["data"]["cover_url"] = cover_url
+    result["source"] = source
+
+    return result
+
 
 def detect_anime(original_image_path, processed_image_path):
     trace_moe_result = search_anime_by_image(processed_image_path)
 
     saucenao_result = search_cover_on_saucenao(original_image_path)
 
-    logger.info("TRACE RESULT:", trace_moe_result)
-    logger.info("SAUCENAO RESULT:", saucenao_result)
+    logger.info(f"Trace.moe result: {trace_moe_result}")
+    logger.info(f"SauceNAO result: {saucenao_result}")
 
     if saucenao_result["success"]:
-        anime_title = saucenao_result["data"]["anime"]
-        cover_url = search_anime_cover(anime_title)
-        saucenao_result["data"]["cover_url"] = cover_url
-        saucenao_result["source"] = "saucenao"
-
-        return saucenao_result
+        return enrich_anime_result(
+            saucenao_result,
+            "saucenao"
+        )
     
     if trace_moe_result["success"]:
-        anime_title = trace_moe_result["data"]["anime"]
-        cover_url = search_anime_cover(anime_title)
-        trace_moe_result["data"]["cover_url"] = cover_url
-        trace_moe_result["source"] = "trace.moe"
-
-        return trace_moe_result
+        return enrich_anime_result(
+            trace_moe_result,
+            "trace.moe"
+        )
     
     return {
         "success": False,
