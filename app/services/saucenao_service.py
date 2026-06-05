@@ -44,6 +44,7 @@ def build_saucenao_response(best_result):
         "success": True,
         "data": {
             "anime": anime_title,
+            "anilist_id": saucenao_data.get("anilist_id"),
             "episode": saucenao_data.get("part"),
             "timestamp": saucenao_data.get("est_time"),
             "similarity": similarity

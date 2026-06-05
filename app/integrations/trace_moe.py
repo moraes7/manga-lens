@@ -44,7 +44,7 @@ def clean_anime_title(filename):
 
     filename = re.sub(r"\s+", " ", filename)
 
-    print(f"TÍTULO LIMPO: {filename}")
+    logger.info(f"TÍTULO LIMPO: {filename}")
 
     return filename.strip()
 
@@ -104,6 +104,7 @@ def validate_trace_result(data):
 
 
 def build_trace_response(best_result):
+    #logger.info(f"TRACE.MOE BEST RESULT COMPLETO: {best_result}")
 
     cleaned_title = clean_anime_title(
         best_result.get("filename", "")
@@ -122,6 +123,7 @@ def build_trace_response(best_result):
         "success": True,
         "data": {
             "anime": cleaned_title,
+            "anilist_id": best_result.get("anilist"),
             "episode": best_result.get("episode"),
             "similarity": similarity,
             "timestamp": formatted_timestamp,

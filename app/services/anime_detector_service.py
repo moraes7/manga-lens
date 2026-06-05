@@ -1,9 +1,40 @@
 from app.integrations.trace_moe import search_anime_by_image
-from app.integrations.anilist import search_anime_cover
+from app.integrations.anilist import search_anime_cover, search_anilist_id
 from app.services.saucenao_service import search_cover_on_saucenao
 import logging
 
 logger = logging.getLogger(__name__)
+
+def normalize_title(title):
+    if not title:
+        return ""
+    
+    return title.lower().strip()
+
+def have_same_anilist_id(trace_result, saucenao_result):
+    trace_anilist_id = trace_result["data"].get("anilist_id")
+    saucenao_anilist_id = saucenao_result["data"].get("anilist_id")
+
+    if not trace_anilist_id or not saucenao_anilist_id:
+        return False
+
+    return trace_anilist_id == saucenao_anilist_id
+
+def fill_missing_saucenao_anilist_id(saucenao_result):
+    if saucenao_result["data"].get("anilist_id"):
+        return saucenao_result
+    
+    anime_title = saucenao_result["data"]["anime"]
+    saucenao_result["data"]["anilist_id"] = search_anilist_id(anime_title)
+
+    return saucenao_result
+
+def copy_trace_episode_data(saucenao_result, trace_result):
+    saucenao_result["data"]["episode"] = trace_result["data"].get("episode")
+    saucenao_result["data"]["timestamp"] = trace_result["data"].get("timestamp")
+
+    return saucenao_result
+
 
 def enrich_anime_result(result, source):
     anime_title = result["data"]["anime"]
@@ -23,6 +54,8 @@ def detect_anime(original_image_path, processed_image_path):
     logger.info(f"SauceNAO result: {saucenao_result}")
 
     if saucenao_result["success"]:
+        saucenao_result = fill_missing_saucenao_anilist_id(saucenao_result)
+        
         return enrich_anime_result(
             saucenao_result,
             "saucenao"

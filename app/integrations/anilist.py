@@ -10,6 +10,12 @@ logger = logging.getLogger(__name__)
 def remove_season_suffix(anime_title):
     return re.sub(r"\s+S\d+$", "", anime_title).strip()
 
+def clean_title_for_anilist(anime_title):
+    title = re.sub(r"\(\d{4}\)", "", anime_title)
+    title = title.replace("`", "")
+
+    return title.strip()
+
 def normalize_title(title):
     if not title:
         return ""
@@ -34,6 +40,26 @@ def fetch_anilist_media(anime_title, query):
 
     return data.get("data", {}).get("Media")
 
+def search_anilist_id(anime_title):
+    query = """
+    query ($search: String) {
+        Media(search: $search, type: ANIME) {
+            id
+        }
+    }
+    """
+
+    try:
+        cleaned_title = clean_title_for_anilist(anime_title)
+        media = fetch_anilist_media(cleaned_title, query)
+
+        if not media:
+            return None
+        
+        return media.get("id")
+    except requests.exceptions.Timeout:
+        return None
+
 def search_anime_cover(anime_title):
     query = """
     query ($search: String) {
@@ -46,10 +72,11 @@ def search_anime_cover(anime_title):
     """
 
     try:
-        media = fetch_anilist_media(anime_title, query)
+        cleaned_title = clean_title_for_anilist(anime_title)
+        media = fetch_anilist_media(cleaned_title, query)
 
         if not media:
-            fallback_title = remove_season_suffix(anime_title)
+            fallback_title = remove_season_suffix(cleaned_title)
 
             if normalize_title(fallback_title) != normalize_title(anime_title):
                 logger.info(f"TENTANDO BUSCA ALTERNATIVA: {fallback_title}")
