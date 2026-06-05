@@ -10,6 +10,12 @@ logger = logging.getLogger(__name__)
 def remove_season_suffix(anime_title):
     return re.sub(r"\s+S\d+$", "", anime_title).strip()
 
+def normalize_title(title):
+    if not title:
+        return ""
+    
+    return title.strip().lower()
+
 def fetch_anilist_media(anime_title, query):
     variables = {
         "search": anime_title,
@@ -44,9 +50,11 @@ def search_anime_cover(anime_title):
 
         if not media:
             fallback_title = remove_season_suffix(anime_title)
-            logger.info(f"TENTANDO BUSCA ALTERNATIVA: {fallback_title}")
 
-            media = fetch_anilist_media(fallback_title, query)
+            if normalize_title(fallback_title) != normalize_title(anime_title):
+                logger.info(f"TENTANDO BUSCA ALTERNATIVA: {fallback_title}")
+
+                media = fetch_anilist_media(fallback_title, query)
 
             if not media:
                 return None
