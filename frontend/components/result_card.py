@@ -8,13 +8,16 @@ def show_result(uploaded_file, trace_result):
         """
         <style>
             .result-card {
+                max-width: 420px;
+                margin-left: auto; 
+                margin-right: auto;
+                margin-bottom: 16px;
+                margin-top: 16px;
                 background-color: #111827;
                 border-radius: 24px;
                 padding: 32px 32px;
                 text-align: center;
                 box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
-                margin-bottom: 16px;
-                margin-top: 16px;
             }
 
             .result-status {
@@ -38,7 +41,7 @@ def show_result(uploaded_file, trace_result):
             }
 
             .cover-image {
-                width: 150px;
+                width: 220px;
             }
 
             .cover-placeholder {
@@ -85,10 +88,8 @@ def show_result(uploaded_file, trace_result):
             <div class="result-card">
             <div class="result-status">Análise concluída</div>
             <div class="result-title">{trace_result["anime"]}</div>
-            {f'<img class="cover-image" src="{cover_url}" />' if cover_url else '<div class="cover-placeholder">Capa indisponível</div>'}
-            <div class="result-info">Similaridade: {trace_result["similarity"]}%</div>
-            <div class="result-info">Episódio: {trace_result["episode"]}</div>
-            <div class="result-info">Minutagem: {trace_result["timestamp"]}</div>
+            {f'<img class="cover-image" src="{cover_url}" />' 
+             if cover_url else '<div class="cover-placeholder">Capa indisponível</div>'}
             </div>
         """
 

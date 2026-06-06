@@ -55,6 +55,9 @@ def detect_anime(original_image_path, processed_image_path):
 
     if saucenao_result["success"]:
         saucenao_result = fill_missing_saucenao_anilist_id(saucenao_result)
+
+        if trace_moe_result["success"] and have_same_anilist_id(trace_moe_result, saucenao_result):
+            saucenao_result = copy_trace_episode_data(saucenao_result, trace_moe_result)
         
         return enrich_anime_result(
             saucenao_result,
