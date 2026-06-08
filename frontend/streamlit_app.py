@@ -57,7 +57,7 @@ if st.session_state["tela"] == "upload":
     )
 
     if uploaded_file is not None:
-        st.image(uploaded_file, width=150) 
+        st.image(uploaded_file, width=100) 
 
     if uploaded_file is not None:
 

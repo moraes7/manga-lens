@@ -19,7 +19,7 @@ router = APIRouter()
 
 @router.post(
         "/upload",
-        #response_model=UploadImageResponse,
+        response_model=UploadImageResponse,
         summary="Upload de imagem para análise",
         description="Recebe uma imagem, processa o arquivo e tenta identificar obras de anime ou mangá.",
         responses={
