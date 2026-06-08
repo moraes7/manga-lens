@@ -1,6 +1,6 @@
 from app.integrations.trace_moe import search_anime_by_image
 from app.integrations.anilist import search_anime_cover, search_anilist_id
-from app.services.saucenao_service import search_cover_on_saucenao
+from app.integrations.saucenao import search_cover_on_saucenao
 import logging
 
 logger = logging.getLogger(__name__)
