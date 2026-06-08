@@ -49,7 +49,7 @@ if "tela" not in st.session_state:
 if st.session_state["tela"] == "upload":
 
     st.title("🔍 Mangalens")
-    st.write("Envie uma imagem para tentar identificar o anime.")
+    st.write("Envie uma imagem para tentar identificar o anime ou mangá.")
 
     uploaded_file = st.file_uploader(
         "Escolha uma imagem",

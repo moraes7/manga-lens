@@ -84,10 +84,12 @@ def show_result(uploaded_file, trace_result):
     with button_col_center:
         new_analysis = st.button("Nova análise")
 
+        work_title = trace_result.get("title") or trace_result.get("anime")
+
         result_html = f"""
             <div class="result-card">
             <div class="result-status">Análise concluída</div>
-            <div class="result-title">{trace_result["anime"]}</div>
+            <div class="result-title">{work_title}</div>
             {f'<img class="cover-image" src="{cover_url}" />' 
              if cover_url else '<div class="cover-placeholder">Capa indisponível</div>'}
             </div>

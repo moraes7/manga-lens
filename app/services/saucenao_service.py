@@ -17,12 +17,12 @@ def build_saucenao_response(best_result):
     similarity = float(best_result["header"]["similarity"])
     print(f"SIMILARIDADE RETORNADA PELO SAUCENAO {similarity}")
     saucenao_data = best_result["data"]
-    anime_title = saucenao_data.get("source")
+    work_title = saucenao_data.get("source")
     has_anilist_id = saucenao_data.get("anilist_id")    
-    logger.info(f"Título retornado pelo SauceNAO: {anime_title}")
+    logger.info(f"Título retornado pelo SauceNAO: {work_title}")
     logger.info(f"AniList ID retornado pelo SauceNAO: {has_anilist_id}")
 
-    if not anime_title:
+    if not work_title:
         return build_error_response(
             "NO_RESULT",
             "Não encontramos nenhuma obra correspondente para esta imagem."
@@ -43,7 +43,8 @@ def build_saucenao_response(best_result):
     return {
         "success": True,
         "data": {
-            "anime": anime_title,
+            "title": work_title,
+            "anime": work_title,
             "anilist_id": saucenao_data.get("anilist_id"),
             "episode": saucenao_data.get("part"),
             "timestamp": saucenao_data.get("est_time"),

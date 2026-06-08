@@ -21,7 +21,7 @@ router = APIRouter()
         "/upload",
         #response_model=UploadImageResponse,
         summary="Upload de imagem para análise",
-        description="Recebe uma imagem, processa o arquivo, gera embedding, busca imagens similares e consulta a API trace.moe para identificar o anime.",
+        description="Recebe uma imagem, processa o arquivo e tenta identificar obras de anime ou mangá.",
         responses={
             200: {
                 "description": "Imagem processada com sucesso"
@@ -74,8 +74,8 @@ async def upload_image(file: UploadFile = File(...)):
                 "filename": filename,
                 "image_info": image_info,
                 "preprocessed_image": processed_image,
-                "embedding_preview": embedding[:10],
-                "similar_image": similar_image,
+                #"embedding_preview": embedding[:10],
+                #"similar_image": similar_image,
                 "anime_result": trace_moe_result
             }
         )
@@ -86,7 +86,7 @@ async def upload_image(file: UploadFile = File(...)):
         "filename": filename,
         "image_info": image_info,
         "preprocessed_image": processed_image,
-        "embedding_preview": embedding[:10],
-        "similar_image": similar_image,
+        #"embedding_preview": embedding[:10],
+        #"similar_image": similar_image,
         "anime_result": trace_moe_result
     }

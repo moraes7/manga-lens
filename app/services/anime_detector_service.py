@@ -24,8 +24,8 @@ def fill_missing_saucenao_anilist_id(saucenao_result):
     if saucenao_result["data"].get("anilist_id"):
         return saucenao_result
     
-    anime_title = saucenao_result["data"]["anime"]
-    saucenao_result["data"]["anilist_id"] = search_anilist_id(anime_title)
+    work_title = saucenao_result["data"].get("title") or saucenao_result["data"].get("anime")
+    saucenao_result["data"]["anilist_id"] = search_anilist_id(work_title)
 
     return saucenao_result
 
@@ -37,8 +37,8 @@ def copy_trace_episode_data(saucenao_result, trace_result):
 
 
 def enrich_anime_result(result, source):
-    anime_title = result["data"]["anime"]
-    cover_url = search_anime_cover(anime_title)
+    work_title = result["data"].get("title") or result["data"].get("anime") 
+    cover_url = search_anime_cover(work_title)
     result["data"]["cover_url"] = cover_url
     result["source"] = source
 
