@@ -2,7 +2,13 @@
 
 O Mangalens é uma aplicação Full Stack focada na identificação de animes e mangás através de imagens, utilizando visão computacional, embeddings e integração com APIs especializadas.
 
-Atualmente o projeto é capaz de identificar animes utilizando APIs especializadas e exibir automaticamente a capa da obra encontrada.
+Atualmente o projeto é capaz de identificar:
+
+* Cenas de anime
+* Painéis de mangá
+* Capas de anime
+
+Após a identificação, o sistema busca automaticamente informações complementares e a capa da obra quando disponível.
 
 O projeto foi desenvolvido com foco em:
 
@@ -10,12 +16,10 @@ O projeto foi desenvolvido com foco em:
 * Integração com APIs externas
 * Processamento de imagens
 * Inteligência Artificial aplicada
-* UX/UI
-* Portfólio Full Stack
 
 ---
 
-# ✨ Demonstração do Projeto 
+# ✨ Demonstração do Projeto
 
 ## Upload da imagem
 
@@ -37,6 +41,12 @@ O projeto foi desenvolvido com foco em:
 
 ✅ Pré-processamento de imagens
 
+✅ Identificação de cenas de anime
+
+✅ Identificação de painéis de mangá
+
+✅ Identificação de capas de anime
+
 ✅ Geração de embeddings
 
 ✅ Busca por similaridade local
@@ -47,7 +57,7 @@ O projeto foi desenvolvido com foco em:
 
 ✅ Integração com AniList
 
-✅ Busca automática de capas de anime
+✅ Busca automática de capas
 
 ✅ Fallback automático entre APIs
 
@@ -56,6 +66,8 @@ O projeto foi desenvolvido com foco em:
 ✅ Interface web desenvolvida com Streamlit
 
 ✅ API REST desenvolvida com FastAPI
+
+✅ Documentação automática via Swagger
 
 ---
 
@@ -68,14 +80,37 @@ Imagem enviada
       ↓
 Pré-processamento
       ↓
-Tentativa de reconhecimento via Trace.moe
+Consulta ao Trace.moe
       ↓
-Fallback para SauceNAO
+Consulta ao SauceNAO
+      ↓
+Validação e comparação dos resultados
       ↓
 Busca da capa via AniList
       ↓
 Retorno final para a interface
 ```
+
+---
+
+# 🤖 Inteligência Artificial no projeto
+
+O Mangalens utiliza IA em duas frentes principais:
+
+### 1. Geração de Embeddings
+
+As imagens enviadas são transformadas em vetores numéricos utilizando uma rede neural pré-treinada (ResNet18).
+
+Esses vetores representam características visuais da imagem e permitem comparações por similaridade.
+
+### 2. APIs Especializadas
+
+O projeto utiliza serviços externos que empregam modelos de IA e visão computacional para reconhecer obras a partir de imagens:
+
+* Trace.moe
+* SauceNAO
+
+Essas APIs analisam o conteúdo visual da imagem e retornam possíveis correspondências.
 
 ---
 
@@ -96,7 +131,13 @@ Retorno final para a interface
 ## Processamento de imagem
 
 * Pillow
-* NumPy
+* PyTorch
+* Torchvision
+
+## Inteligência Artificial
+
+* ResNet18
+* Embeddings Vetoriais
 
 ## APIs externas
 
@@ -112,6 +153,12 @@ Retorno final para a interface
 app/
 ├── config/
 ├── integrations/
+│   ├── anilist.py
+│   ├── saucenao.py
+│   └── trace_moe.py
+│
+├── reference_images/
+│
 ├── routes/
 ├── schemas/
 ├── services/
@@ -129,7 +176,7 @@ frontend/
 
 assets/
 ├── demo-upload.png
-└── demo-resultado.png
+└── demo-result.png
 ```
 
 ---
@@ -145,7 +192,7 @@ git clone URL_DO_REPOSITORIO
 ## 2. Acesse a pasta do projeto
 
 ```bash
-cd Mangalens
+cd mangalens
 ```
 
 ## 3. Instale as dependências
@@ -196,14 +243,14 @@ streamlit run frontend/streamlit_app.py
 
 # 📌 Status do projeto
 
-🚧 Em desenvolvimento
+🚧 MVP funcional em desenvolvimento
 
 ### Próximas melhorias
 
-* Banco próprio de capas de anime
-* Reconhecimento de capas oficiais
-* Reconhecimento de páginas e painéis de mangá
-* Expansão do banco de dados de imagens
+* Aprimoramento da busca local por embeddings
+* Expansão da base de imagens de referência
+* Suporte avançado para mangás
+* Banco próprio de capas
 * Deploy em produção
 * Melhorias contínuas de UX/UI
 
@@ -219,7 +266,6 @@ Este projeto foi criado para aprofundar conhecimentos em:
 * Processamento de imagens
 * Inteligência Artificial aplicada
 * Arquitetura de Software
-* UX/UI Design
 * Desenvolvimento Full Stack
 
 ---
@@ -227,7 +273,5 @@ Este projeto foi criado para aprofundar conhecimentos em:
 # 👨‍💻 Autor
 
 **Nicolas Moraes**
-
-Estudante de Análise e Desenvolvimento de Sistemas, com foco em desenvolvimento web, UX/UI e aplicações utilizando Inteligência Artificial.
 
 Projeto desenvolvido para fins de estudo, prática e composição de portfólio.
