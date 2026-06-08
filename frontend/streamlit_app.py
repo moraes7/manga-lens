@@ -57,9 +57,8 @@ if st.session_state["tela"] == "upload":
     )
 
     if uploaded_file is not None:
-        st.image(uploaded_file, width=100) 
 
-    if uploaded_file is not None:
+        st.image(uploaded_file, width=100)
 
         if uploaded_file.type not in ALLOWED_IMAGE_TYPES:
             st.error("Tipo de arquivo inválido. Envie uma imagem JPG, PNG ou WEBP.")
