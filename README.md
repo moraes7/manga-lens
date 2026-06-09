@@ -21,7 +21,7 @@ O projeto foi desenvolvido com foco em:
 
 ## 🌐 Demonstração Online
 
-https://manga-lens.streamlit.app
+https://mangalens.streamlit.app
 
 # ✨ Demonstração do Projeto
 
