@@ -1,6 +1,6 @@
 import requests
 
-API_URL = "https://manga-lens.onrender.com/docs"
+API_URL = "https://manga-lens.onrender.com/upload"
 
 def analyze_image(uploaded_file):
 
