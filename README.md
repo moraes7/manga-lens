@@ -19,6 +19,10 @@ O projeto foi desenvolvido com foco em:
 
 ---
 
+## 🌐 Demonstração Online
+
+https://manga-lens.streamlit.app
+
 # ✨ Demonstração do Projeto
 
 ## Upload da imagem
