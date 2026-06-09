@@ -36,6 +36,12 @@ st.markdown(
             padding-top: 2rem;
             padding-bottom: 0rem;
         }
+        div.stButton > button {
+            background-color: transparent;
+            color: #22C55E;
+            border: 2px solid #22C55E;
+            border-radius: 10px;
+        }
     </style>
     """,
     unsafe_allow_html=True
