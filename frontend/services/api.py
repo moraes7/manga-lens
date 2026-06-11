@@ -15,7 +15,7 @@ def analyze_image(uploaded_file):
     response = requests.post(
         API_URL,
         files=files,
-        timeout=30
+        timeout=60
     )
 
     response.raise_for_status()
