@@ -98,7 +98,8 @@ def find_similar_image(uploaded_image_path):
     best_match = None
     highest_similarity = -1
 
-    for image_path in REFERENCE_FOLDER.iterdir():
+    for image_path in REFERENCE_FOLDER.rglob("*"):
+        print(f"Imagem encontrada: {image_path}")
         if image_path.suffix.lower() not in ALLOWED_EXTENSIONS:
             continue
 
